@@ -21,6 +21,7 @@ const Main = () => {
 
     useEffect(() => {
       if(loggedOut){
+        console.log(`user is not logged in`)
         navigate('/login')
       }
     }, [loggedOut])
