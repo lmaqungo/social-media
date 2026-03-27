@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss"; 
+
+@theme {
+    --font-inter: "Inter", sans-serif;
+    --color-dark-grey: #657786;
+    --color-dark-grey-alternate: rgba(108, 127, 143, 0.1); 
+    --color-dark-grey-alternate-2: rgba(108, 127, 143, 0.31);
+    --color-twitter-light-grey: #AAB8C2; 
+    --color-twitter-blue: #0D99FF;
+    --color-twitter-blue-hover: rgba(29, 161, 242, 0.9);
+    --color-hover-grey: #1B1B1B; 
+    --color-hover-white: #E1E8ED;
+}
+
+@layer base {
+    html {
+        @apply font-inter
+    }
+}
