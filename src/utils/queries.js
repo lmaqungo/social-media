@@ -93,7 +93,7 @@ async function newReply(setReplies, content, postId, setLoading) {
     }
 }
 
-async function getLoggedUser(setLoggedUser, setLoading) {
+async function getLoggedUser(setLoggedUser, setLoading, setLoggedOut) {
     setLoading(true)
     const url = `${apiURL}/users/loggedUser`; 
     try {
@@ -105,6 +105,9 @@ async function getLoggedUser(setLoggedUser, setLoading) {
             }
         });
         if(!response.ok) {
+            if(response.status === 401){
+                return setLoggedOut(true)
+            }
             throw new Error(`Response status: ${response.status}`);
         }
     
@@ -124,7 +127,7 @@ async function getLoggedUser(setLoggedUser, setLoading) {
 
 async function getUser(userId, setUser, setLoading, setLoadingPosts, setUserPosts, setUserBio, setWebsite, setFollowers, setFollowing) {
     setLoading(true)
-    const url = `${apiURL}/users/${userId}`;
+    const url = `${apiURL}/users/${userId}`; 
     try {
         const response = await fetch(url, {
             credentials: "include", 

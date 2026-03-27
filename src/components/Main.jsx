@@ -3,17 +3,27 @@ import Menu from "./Menu"
 import { useState, useEffect } from "react";
 import { getLoggedUser } from "../utils/queries";
 import LoadingIndicator from "./LoadingIndicator";
+import { useNavigate } from "react-router";
 
 const Main = () => {
+
+  const navigate = useNavigate()
     
     const [loggedUser, setLoggedUser] = useState(null);
     const [loading, setLoading] = useState(true); 
     const [searchInput, setSearchInput] = useState();
     const [activeMenuItem, setActiveMenuItem] = useState(0); 
+    const [loggedOut, setLoggedOut] = useState(null); 
  
     useEffect(() => {
-      getLoggedUser(setLoggedUser, setLoading)
+      getLoggedUser(setLoggedUser, setLoading, setLoggedOut)
     }, [])
+
+    useEffect(() => {
+      if(loggedOut){
+        navigate('/login')
+      }
+    }, [loggedOut])
 
     const contextObj = {
       loggedUser, 

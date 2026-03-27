@@ -3,7 +3,7 @@ import Posts from './Posts'
 import Search from './fields/Search'
 import { useOutletContext } from 'react-router'
 import { useNavigate, createSearchParams } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 
 const Home = () => {
