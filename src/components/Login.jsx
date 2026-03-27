@@ -1,5 +1,6 @@
 import GoogleIcon from '../icons/GoogleIcon'
 import BrainIcon from '../icons/BrainIcon'
+import { apiURL } from '../utils/selectdb'
 
 const Login = () => {
 
@@ -11,11 +12,11 @@ const Login = () => {
                 <div className='flex flex-col gap-8 items-center '>
                     <h1 className='text-3xl font-bold' >Join Today</h1>
                     <div className='flex flex-col gap-4' >
-                        <a href='http://localhost:3000/auth/google' className='transition bg-white py-3 px-5 flex gap-2 items-center rounded-xl cursor-pointer hover:bg-hover-white'>
+                        <a href={`${apiURL}/auth/google`} className='transition bg-white py-3 px-5 flex gap-2 items-center rounded-xl cursor-pointer hover:bg-hover-white'>
                             < GoogleIcon />
                             <p className='text-black font-bold' >Continue with Google</p>
                         </a>
-                        <a href='http://localhost:3000/auth/guest' className='border text-center border-white py-3 px-5 rounded-xl cursor-pointer' >
+                        <a href={`${apiURL}/auth/guest`} className='border text-center border-white py-3 px-5 rounded-xl cursor-pointer' >
                             <p className='font-bold' >Continue as guest</p>
                         </a>
                     </div>
