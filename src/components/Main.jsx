@@ -13,18 +13,10 @@ const Main = () => {
     const [loading, setLoading] = useState(true); 
     const [searchInput, setSearchInput] = useState();
     const [activeMenuItem, setActiveMenuItem] = useState(0); 
-    const [loggedOut, setLoggedOut] = useState(null); 
  
     useEffect(() => {
-      getLoggedUser(setLoggedUser, setLoading, setLoggedOut)
+      getLoggedUser(setLoggedUser, setLoading, navigate)
     }, [])
-
-    useEffect(() => {
-      if(loggedOut){
-        console.log(`user is not logged in`)
-        navigate('/login')
-      }
-    }, [loggedOut])
 
     const contextObj = {
       loggedUser, 

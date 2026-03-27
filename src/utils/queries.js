@@ -93,7 +93,7 @@ async function newReply(setReplies, content, postId, setLoading) {
     }
 }
 
-async function getLoggedUser(setLoggedUser, setLoading, setLoggedOut) {
+async function getLoggedUser(setLoggedUser, setLoading, navigate) {
     setLoading(true)
     const url = `${apiURL}/users/loggedUser`; 
     try {
@@ -106,7 +106,7 @@ async function getLoggedUser(setLoggedUser, setLoading, setLoggedOut) {
         });
         if(!response.ok) {
             if(response.status === 401){
-                return setLoggedOut(true)
+               return navigate('/login')
             }
             throw new Error(`Response status: ${response.status}`);
         }
