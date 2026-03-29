@@ -9,9 +9,9 @@ const Main = () => {
 
   const navigate = useNavigate()
     
-    const [loggedUser, setLoggedUser] = useState(null);
-    const [loading, setLoading] = useState(true); 
-    const [searchInput, setSearchInput] = useState();
+    const [loggedUser, setLoggedUser] = useState(null); 
+    const [loading, setLoading] = useState(true);  
+    const [searchInput, setSearchInput] = useState(); 
     const [activeMenuItem, setActiveMenuItem] = useState(0); 
  
     useEffect(() => {

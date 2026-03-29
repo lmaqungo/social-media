@@ -14,7 +14,7 @@ const Post = ({ post }) => {
 
     const gf = new GiphyFetch('zdx9Wh2MzGXEPZtkKay4bSgXUbw4UXec');
     
-    const [gif, setGif] = useState(null)
+    const [gif, setGif] = useState(null);
 
     useEffect(() => {
         async function fetchGif(){

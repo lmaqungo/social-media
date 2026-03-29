@@ -16,7 +16,7 @@ const Menu = ({ loggedUser, activeMenuItem, setActiveMenuItem }) => {
 
   return (
     <>
-        <div className="flex sm:flex-col sm:items-start justify-between gap-4 bg-black border-t border-t-dark-grey sm:border-none sm:w-min overflow-x-auto px-4" items-center >
+        <div className="flex sm:flex-col sm:items-start justify-between sm:gap-4 bg-black border-t border-t-dark-grey sm:border-none sm:w-min overflow-x-auto px-4" items-center >
             <div className="hidden sm:block" >
               <div className="lg:hidden" >
                 <BrainIcon height={55} width={44} />

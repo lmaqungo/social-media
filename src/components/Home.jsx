@@ -31,8 +31,8 @@ const Home = () => {
 
   return (
     <div className='flex w-full pr-2 '>
-        <div className='sm:border-x min-h-screen border-dark-grey pb-30' >
-          <div className='pt-8 w-auto lg:w-2xl border-b border-dark-grey' >
+        <div className='sm:border-x min-h-screen border-dark-grey pb-30 w-full lg:w-auto ' >
+          <div className='pt-8 w-screen sm:w-auto lg:w-2xl border-b border-dark-grey' >
               <Posts />
           </div>
         </div>
