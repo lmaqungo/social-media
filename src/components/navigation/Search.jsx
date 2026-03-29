@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 const Search = ({ isActive, handleClick, id }) => {
   return (
     <>
-        <Link to='/search' className='lg:hidden' >
+        <Link to='/search' className='xl:hidden' >
             <div onClick={() => handleClick(id)} className='transition p-3 lg:py-3 lg:pl-3 lg:pr-6 rounded-full flex items-center gap-6 hover:bg-hover-grey' >
                 {
                     isActive ? <SearchIconActive /> : <SearchIconDefault />
