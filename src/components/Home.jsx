@@ -31,13 +31,13 @@ const Home = () => {
 
   return (
     <div className='flex w-full pr-2 '>
-        <div className='sm:border-x border-dark-grey pb-30' >
-          <div className='pt-8 max-w-3xl border-b border-dark-grey' >
+        <div className='sm:border-x min-h-screen border-dark-grey pb-30' >
+          <div className='pt-8 w-auto lg:w-2xl border-b border-dark-grey' >
               <Posts />
           </div>
         </div>
         <div className='h-min sticky top-0 grow' >
-          <div className='hidden lg:block pl-4 pt-8 w-full' >
+          <div className='hidden xl:block pl-4 pt-8 w-full' >
             <Search submitFn={handleSubmit} setSearchInput={setSearchInput} initialValue={''} />
           </div>
         </div>
