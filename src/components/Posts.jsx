@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react"
 import { getPosts } from "../utils/queries"
 import Post from "./Post"
-import { useOutletContext } from "react-router"
+import LoadingIndicator from "./LoadingIndicator"
 
 const Posts = () => {
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]); 
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-      getPosts(setPosts)
+      getPosts(setPosts, setLoading)
     }, [])
 
   function renderPosts() {
@@ -18,6 +19,10 @@ const Posts = () => {
     })
 
     return postsCards
+  }
+
+  if(loading){
+    return <LoadingIndicator />
   }
 
   return (
