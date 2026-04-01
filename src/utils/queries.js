@@ -1,7 +1,8 @@
 import { extractIds } from "./utils";
 import { apiURL } from "./selectdb";
 
-async function getPosts(setPosts) {
+async function getPosts(setPosts, setLoading) {
+    setLoading(true)
     const url = `${apiURL}/posts`; 
     try {
         const response = await fetch(url, {
@@ -24,6 +25,8 @@ async function getPosts(setPosts) {
         } else{
             console.log('An unexpected error has occurred')
         }
+    } finally {
+        setLoading(false)
     }
 }
 
