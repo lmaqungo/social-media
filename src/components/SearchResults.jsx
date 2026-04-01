@@ -1,4 +1,3 @@
-import React from 'react'
 import Search from './fields/Search'
 import BackIcon from '../icons/BackIcon'
 import { useOutletContext } from 'react-router'
@@ -20,7 +19,7 @@ const SearchResults = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [activeMenuItem, setActiveMenuItem] = useState(0);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     
