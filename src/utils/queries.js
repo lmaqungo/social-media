@@ -115,8 +115,8 @@ async function getLoggedUser(setLoggedUser, setLoading, navigate) {
         }
     
         const result = await response.json(); 
-        console.log(result)
-        setLoggedUser(result)
+        console.log(result);
+        setLoggedUser(result);
     } catch(error) {
         if(error instanceof Error) {
             console.error(error)

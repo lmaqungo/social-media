@@ -32,7 +32,7 @@ This repo contains the front end code for a social media application inspired by
 
 [![languages and tools](https://skillicons.dev/icons?i=js,react,tailwind,vite)](https://skillicons.dev)
 
-## 📌 To do  
+## 📌 To do
 
 - [ ] Socket-based chat for real time updates
 - [ ] Instructions for local installation

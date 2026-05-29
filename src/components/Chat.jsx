@@ -162,7 +162,7 @@ const Chat = () => {
   }
 
   return (
-    <div className='w-full min-h-screen flex relative '>
+    <div className='w-full min-h-screen flex relative'>
       
         {
           showNewChatModal && showContacts()
