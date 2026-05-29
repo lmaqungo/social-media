@@ -16,7 +16,7 @@ const routes = [
     {
         path: '/', 
         Component: App, 
-        // ErrorBoundary: ErrorReport,
+        ErrorBoundary: ErrorReport,
         children: [ 
             {
                 Component: Main, 
