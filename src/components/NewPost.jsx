@@ -21,6 +21,7 @@ const NewPost = () => {
     const [attachmentPreview, setAttachmentPreview] = useState(""); 
     const [gifID, setGifID] = useState(null); 
     const [openGifSelector, setOpenGifSelector] = useState(false); 
+    const [clickedPostButton, setClickedPostButton] = useState(false);
     
     const characterLimit = 280 - postContent.length
     
@@ -29,6 +30,7 @@ const NewPost = () => {
     }
     
     async function handlePost(){
+        setClickedPostButton(true)
         if(attachment){
             const url = await uploadAttachment(attachment)
             await newPost(postContent, url, null)
@@ -91,7 +93,7 @@ const NewPost = () => {
                 <div className='flex items-center gap-6' >
                     {/* <p className={ `${charLimColor()} select-none ` } >{ characterLimit }</p> */}
                     <CharacterIndicator postContent={postContent} />
-                    <button onClick={handlePost} className={`transition  font-bold cursor-pointer px-5 py-1 rounded-full hover:bg-twitter-blue-hover ${ disablePostButton() ? 'pointer-events-none bg-twitter-blue-hover' : 'bg-twitter-blue'} `} >Post</button>
+                    <button onClick={handlePost} className={`transition  font-bold cursor-pointer px-5 py-1 rounded-full hover:bg-twitter-blue-hover ${ disablePostButton() ? 'pointer-events-none bg-twitter-blue-hover ' : 'bg-twitter-blue'}  ${clickedPostButton && 'pointer-events-none' }`} >Post</button>
                 </div>
             </div>
             <div className='flex gap-8' >
