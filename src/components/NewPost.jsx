@@ -1,13 +1,11 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import CancelIcon from '../icons/CancelIcon'
 import Circle from '../icons/Circle'
 import { useNavigate } from 'react-router'
-import { newPost, uploadAttachment } from '../utils/queries'
+import { newPost } from '../utils/queries'
 import CharacterIndicator from './CharacterIndicator'
-import AddImageIcon from '../icons/AddImageIcon'
 import EmojiKeyboardIcon from '../icons/EmojiKeyboardIcon'
-import AttachmentPreview from './AttachmentPreview'
 import AddGifIcon from '../icons/AddGifIcon'
 import GIFPreview from './GIFPreview'
 
@@ -17,8 +15,6 @@ const NewPost = () => {
     const navigate = useNavigate();
 
     const [postContent, setPostContent] = useState(''); 
-    const [attachment, setAttachment] = useState(null); 
-    const [attachmentPreview, setAttachmentPreview] = useState(""); 
     const [gifID, setGifID] = useState(null); 
     const [openGifSelector, setOpenGifSelector] = useState(false); 
     const [clickedPostButton, setClickedPostButton] = useState(false);
@@ -31,10 +27,7 @@ const NewPost = () => {
     
     async function handlePost(){
         setClickedPostButton(true)
-        if(attachment){
-            const url = await uploadAttachment(attachment)
-            await newPost(postContent, url, null)
-        } else if(gifID) {
+        if(gifID) {
             await newPost(postContent, null, gifID)
         } else {
             await newPost(postContent, null, null)
@@ -46,35 +39,8 @@ const NewPost = () => {
         navigate('/')
     }
 
-    useEffect(() => {
-        async function clearAttachment(){
-            if(gifID){
-                if(attachment){
-                    setAttachment(null)
-                    setAttachmentPreview("")
-                }
-            }
-        }
-        clearAttachment()
-    }, [gifID])
-
-    useEffect(() => {
-        async function clearGif(){
-            if(attachment){
-                if(gifID){
-                    setGifID(null)
-                }
-            }
-        }
-        clearGif()
-        if(attachment){
-            console.log('added an attachment')
-        }
-    }, [attachment])
-
-
     function disablePostButton(){
-        if(!(gifID || attachment)){
+        if(!(gifID)){
             if(postContent.length === 0 || characterLimit < 0){
                 return true
             } else{
@@ -103,16 +69,12 @@ const NewPost = () => {
                     </textarea>
                 </div>
             </div>
-            <div className={`${ attachmentPreview || gifID ? 'block' : 'hidden' } `} >
-                {
-                    attachmentPreview && <AttachmentPreview preview={attachmentPreview} setPreview={setAttachmentPreview} setAttachment={setAttachment} />   
-                }
+            <div className={`${ gifID ? 'block' : 'hidden' } `} >
                 {
                     gifID && <GIFPreview gifID={gifID} setGifID={setGifID} setOpenGifSelector={setOpenGifSelector} />
                 }
             </div>
             <div className='flex gap-4' >
-                <AddImageIcon setAttachment={setAttachment} setPreview={setAttachmentPreview} />
                 <AddGifIcon setGifID={setGifID} open={openGifSelector} setOpen={setOpenGifSelector} />
                 <EmojiKeyboardIcon setPostContent={setPostContent} />
             </div>
