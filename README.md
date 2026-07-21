@@ -45,16 +45,7 @@ This repo contains the front end code for a social media application inspired by
     <img src="public/screenshot5.png" width="800px" >
 </p>
 <p align="center">
-    <img src="public/screenshot1.png" width="800px" >
-</p>
-<p align="center">
-    <img src="public/screenshot2.png" width="800px" >
-</p>
-<p align="center">
-    <img src="public/screenshot3.png" width="800px" >
-</p>
-<p align="center">
-    <img src="public/screenshot4.png" width="800px" >
+    <img src="public/screenshot6.png" width="800px" >
 </p>
 
 ## 🧠 Project Insights
