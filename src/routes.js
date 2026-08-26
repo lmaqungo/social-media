@@ -2,7 +2,7 @@ import App from "./App";
 import Main from "./components/Main";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import PostView from "./components/PostView";
+import PostView from "./components/PostView/PostView";
 import Profile from "./components/Profile";
 import SearchResults from "./components/SearchResults";
 import NewPost from "./components/NewPost";

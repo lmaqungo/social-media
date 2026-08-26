@@ -1,79 +1,74 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import { getPost } from '../utils/queries'
-import BackIcon from '../icons/BackIcon'
-import Circle from '../icons/Circle'
-import ReplyBubble from '../icons/ReplyBubble'
-import HeartIcon from '../icons/HeartIcon'
+import BackIcon from '../../icons/BackIcon'
+import Circle from '../../icons/Circle'
+import ReplyBubble from '../../icons/ReplyBubble'
+import HeartIcon from '../../icons/HeartIcon'
 import { useOutletContext } from 'react-router'
-import { likePost, unlikePost, newReply } from '../utils/queries'
-import Reply from './Reply'
-import LoadingIndicator from './LoadingIndicator'
+import { newReply } from '../../utils/queries'
+import Reply from '../Reply'
+import LoadingIndicator from '../LoadingIndicator'
 import { Link } from 'react-router'
-import ProfilePicture from './ProfilePicture'
-import { GiphyFetch } from '@giphy/js-fetch-api'
+import ProfilePicture from '../ProfilePicture'
 import { Gif } from '@giphy/react-components'
+import usePostData from './hooks/usePostData'
+import { likePost, unlikePost } from './utils/likePost'
 
 const PostView = () => {
 
     const postId = useParams().postId; 
 
-    const gf = new GiphyFetch('zdx9Wh2MzGXEPZtkKay4bSgXUbw4UXec');
-
-    const [gif, setGif] = useState(null)
-    
-
     const {
         loggedUser,
     } = useOutletContext()
 
-    const [post, setPost] = useState(null); 
-    const [loading, setLoading] = useState(true); 
-    const [postLikes, setPostLikes] = useState(null); 
-    const [heartClicked, setHeartClicked] = useState(null); 
+    const { post, 
+            gif, 
+            setPost, 
+            loading 
+    } = usePostData(postId)
+
+    const [repliesLoading, setRepliesLoading] = useState(true);  
     const [replies, setReplies] = useState([]); 
 
-    const [userReply, setUserReply] = useState(''); 
+    const [userReply, setUserReply] = useState('');   
 
     function handleReplyTyping(e) {
         setUserReply(e.target.value)
     }
 
-    useEffect(() => {
-        console.log(`length of reply: ${userReply.length}`)
-    }, [userReply])
-
-    const heartClickHandler = (e) => {
+    const heartClickHandler = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-        heartClicked ? setHeartClicked(false) : setHeartClicked(true);
+        const prevPost = post
+        /*
+        Call setPost to change post state
+        Make api request
+        rollback if request fails
+        */
+       const likeStatus = post.likedBy.map(user=> user.likedById).includes(loggedUser.id)
+       if (!likeStatus){
+           setPost(prev => {
+               return {
+                   ...prev, 
+                   likedBy: [...prev.likedBy, {likedById: loggedUser.id}]
+               }
+           })
+           await likePost(prevPost, setPost, post.id)
+       } else {
+            setPost(prev => {
+                return {
+                    ...prev, 
+                    likedBy: prev.likedBy.filter(user => user.likedById !== loggedUser.id)
+                }
+            })
+            await unlikePost(prevPost, setPost, post.id)
+       }
     }
-
-    useEffect(() => {
-        getPost(postId, setPost, setLoading, setPostLikes, loggedUser, setHeartClicked, setReplies)
-    }, [])
-
-    useEffect(() => {
-        async function fetchGif(){
-            const { data } = await gf.gif(post.gifId)
-            setGif(data)
-        } 
-        if(post){
-            post.gifId && fetchGif()
-        }
-    }, [post])
-
-    useEffect(() => {
-        console.log(gif)
-    }, [gif])
 
     function postDate() {
         return JSON.parse(post.postDate)
     } 
-
-    useEffect(() => {
-            heartClicked ? likePost(setPostLikes, post.id) : postLikes > 0 && unlikePost(setPostLikes, post.id)
-        }, [heartClicked])
 
     if (loading) {
         return (
@@ -91,7 +86,7 @@ const PostView = () => {
     }
 
     function replyClickHandler() {
-        newReply(setReplies, userReply, postId, setLoading)
+        newReply(setReplies, userReply, postId, setRepliesLoading)
         clearTextarea();
     }
 
@@ -130,18 +125,18 @@ const PostView = () => {
                             <p>{ post.replies.length }</p>
                         </div>
                         <div className='flex gap-2 items-center ' >
-                            <HeartIcon heartClickHandler={heartClickHandler} isActive={heartClicked} />
-                            <p className='select-none ' >{ postLikes }</p>
+                            <HeartIcon heartClickHandler={heartClickHandler} isActive={post.likedBy.map(user=> user.likedById).includes(loggedUser.id)} />
+                            <p className='select-none ' >{ post.likedBy.length }</p>
                         </div>
                     </div>
                 </div>
                 <div className='flex gap-2' >
-                    <ProfilePicture user={loggedUser} size={41} />
+                    <div className='shrink-0' >
+                        <ProfilePicture user={loggedUser} size={41} />
+                    </div>
                     <div className='flex flex-col grow gap-4' >
-                        <div className='flex' >
-                            <textarea onChange={handleReplyTyping} className='p-2 resize-none max-w-2xl overflow-hidden field-sizing-content  focus:[outline:none]' placeholder='Post your reply' >
-                            </textarea>
-                        </div>
+                        <textarea onChange={handleReplyTyping} className='p-2 resize-none  overflow-hidden field-sizing-content  focus:[outline:none]' placeholder='Post your reply' >
+                        </textarea>
                         <div className='flex self-end' >
                             <button className={`transition py-2 px-4 border rounded-4xl text-black font-bold hover:bg-hover-white cursor-pointer ${ userReply.length === 0 ? 'bg-dark-grey pointer-events-none' : 'bg-white'}`} onClick={replyClickHandler}  >Reply</button>
                         </div>

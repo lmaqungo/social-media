@@ -1,5 +1,5 @@
 import React from 'react'
-import Posts from './Posts'
+import Posts from './Posts/Posts'
 import Search from './fields/Search'
 import { useOutletContext } from 'react-router'
 import { useNavigate, createSearchParams } from 'react-router';

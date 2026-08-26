@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router'
 import { likePost, unlikePost, } from '../utils/queries'
 import { Link } from 'react-router'
-import { extractIds } from '../utils/utils'
 import ProfilePicture from './ProfilePicture'
 import { GiphyFetch } from '@giphy/js-fetch-api'
 import { Gif } from '@giphy/react-components'
@@ -32,22 +31,21 @@ const Post = ({ post }) => {
         loggedUser, 
     } = useOutletContext()
 
-    function initialLikeState() {
-        const likedByIds = extractIds(post.likedBy); 
-        return likedByIds.includes(loggedUser.id)
-    }
     
-    const [heartClicked, setHeartClicked] = useState(initialLikeState());
+    const [heartClicked, setHeartClicked] = useState(post.likedBy.map((user) => user.likedById).includes(loggedUser.id));
     const [postLikes, setPostLikes] = useState(post.likedBy.length);
     
-    useEffect(() => {
-        heartClicked ? likePost(setPostLikes, post.id) : postLikes > 0 && unlikePost(setPostLikes, post.id)
-    }, [heartClicked])
 
     const heartClickHandler = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        heartClicked ? setHeartClicked(false) : setHeartClicked(true);
+        if(heartClicked){
+            postLikes > 0 && unlikePost(setPostLikes, post.id)
+            setHeartClicked(false)
+        } else {
+            likePost(setPostLikes, post.id)
+            setHeartClicked(true)
+        }
     }
 
     function postDate() {

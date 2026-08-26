@@ -17,7 +17,6 @@ async function getPosts(setPosts, setLoading) {
         }
 
         const result = await response.json(); 
-        // console.log(result)
         setPosts(result)
     } catch(error){
         if(error instanceof Error) {
@@ -33,7 +32,7 @@ async function getPosts(setPosts, setLoading) {
 function initialLikeState(user, post) {
     const likedByIds = extractIds(post.likedBy); 
     return likedByIds.includes(user.id)
-    }
+}
 
 async function getPost(postId, setPost, setLoading, setPostLikes, loggedUser, setHeartClicked, setReplies) {
     const url = `${apiURL}/posts/${postId}`; 
