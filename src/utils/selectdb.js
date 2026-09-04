@@ -12,4 +12,4 @@ function getApiUrl() {
 
 const apiURL = getApiUrl();
 
-export { apiURL };
+export default apiURL;

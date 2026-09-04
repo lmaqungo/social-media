@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Posts from './Posts/Posts'
 import Search from './fields/Search'
 import { useOutletContext } from 'react-router'
@@ -12,7 +12,7 @@ const Home = () => {
 
   const {
     searchInput,
-    setSearchInput, 
+    setSearchInput,
     setActiveMenuItem
   } = useOutletContext()
 
@@ -30,14 +30,14 @@ const Home = () => {
   }, [])
 
   return (
-    <div className='flex w-full pr-2 '>
+    <div className='flex w-full pr-2'>
         <div className='sm:border-x min-h-screen border-dark-grey pb-30 w-full lg:w-auto ' >
-          <div className='pt-8 w-screen sm:w-auto lg:w-2xl border-b border-dark-grey' >
+          <div className='pt-8 sm:w-auto lg:w-2xl border-b border-dark-grey' >
               <Posts />
           </div>
         </div>
-        <div className='h-min sticky top-0 grow' >
-          <div className='hidden xl:block pl-4 pt-8 w-full' >
+        <div className='h-min sticky top-0 grow max-w-lg' >
+          <div className='hidden xl:block pl-4 pt-8' >
             <Search submitFn={handleSubmit} setSearchInput={setSearchInput} initialValue={''} />
           </div>
         </div>

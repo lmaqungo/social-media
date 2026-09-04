@@ -20,7 +20,7 @@ const Search = ({ setSearchInput, submitFn, initialValue }) => {
   return (
     <>
         <form onSubmit={submitFn} className='flex grow' >
-            <input onClick={handleClick} onChange={handleTyping} onBlur={handleFocusOut}  className={` grow resize-none pl-4 py-2 pr-12 rounded-full w-5 border-none outline ${active? 'outline-2 outline-twitter-blue' : ' outline-twitter-light-grey'}`} defaultValue={initialValue} type="text" placeholder='Search'/>
+            <input onClick={handleClick} onChange={handleTyping} onBlur={handleFocusOut} size={15} className={` grow resize-none pl-4 py-2 pr-12 rounded-full border-none outline ${active? 'outline-2 outline-twitter-blue' : ' outline-twitter-light-grey'}`} defaultValue={initialValue} type="text" placeholder='Search'/>
         </form>
     </>
   )

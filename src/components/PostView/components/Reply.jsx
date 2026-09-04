@@ -1,11 +1,9 @@
-import React from 'react'
-import Circle from '../icons/Circle'
-import HeartIcon from '../icons/HeartIcon'
-import { useState, useEffect } from 'react'
+
+import HeartIcon from '../../../icons/HeartIcon'
+import { useState } from 'react'
 import { useOutletContext } from 'react-router'
-import { extractIds } from '../utils/utils'
-import { likeReply, unlikeReply } from '../utils/queries'
-import ProfilePicture from './ProfilePicture'
+import ProfilePicture from '../../ProfilePicture'
+import { likeReplyAction, unlikeReplyAction } from '../handlers/toggleReplyLike'
 
 const Reply = ({ reply }) => {
   
@@ -16,26 +14,17 @@ const Reply = ({ reply }) => {
   const [heartClicked, setHeartClicked] = useState(initialLikeState())
   const [replyLikes, setReplyLikes] = useState(reply.likedBy.length)
 
-
   function postDate() {
-        return JSON.parse(reply.postDate)
+    return JSON.parse(reply.postDate)
   }
 
   function initialLikeState() {
-    const likedByIds = extractIds(reply.likedBy); 
-    return likedByIds.includes(loggedUser.id); 
+    return reply.likedBy.map(reply => reply.likedById).includes(loggedUser.id); 
   }
 
   const heartClickHandler = () => {
-    heartClicked ? setHeartClicked(false) : setHeartClicked(true)
+    heartClicked ? replyLikes > 0 && unlikeReplyAction(setHeartClicked, setReplyLikes, reply.id) : likeReplyAction(setHeartClicked, setReplyLikes, reply.id)
   } 
-
-  useEffect(() => {
-      heartClicked ? likeReply(setReplyLikes, reply.id) : replyLikes > 0 && unlikeReply(setReplyLikes, reply.id)
-  }, [heartClicked])
-
-
-  
 
   return (
         <div className='p-4 border-t border-dark-grey cursor-pointer transition hover:bg-dark-grey-alternate ' >
@@ -66,7 +55,6 @@ const Reply = ({ reply }) => {
             </div>
           </div>
         
-      
     </div>
   )
 }

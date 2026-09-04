@@ -1,6 +1,6 @@
 import GoogleIcon from '../icons/GoogleIcon'
 import BrainIcon from '../icons/BrainIcon'
-import { apiURL } from '../utils/selectdb'
+import apiURL from '../utils/selectdb'
 
 const Login = () => {
 

@@ -1,12 +1,21 @@
 
-import { apiURL } from "../../utils/selectdb";
-import useData from "../../hooks/useData";
+import { useState, useEffect } from "react";
+
+import client from "../../api/client";
+
+const fetchPosts = () => client('/posts')
 
 export default function usePostsData(){
 
-    const url = `${apiURL}/posts`
+    const [posts, setPosts] = useState([]); 
+    const [loading, setLoading] = useState(true);
 
-    const { data: posts, loading } = useData(url)
+    useEffect(() => {
+        fetchPosts().then(result => {
+            setPosts(result)
+            setLoading(false)
+        })
+    }, [])
 
     return { posts, loading }
 }

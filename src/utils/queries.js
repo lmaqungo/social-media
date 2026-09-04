@@ -1,5 +1,5 @@
 import { extractIds } from "./utils";
-import { apiURL } from "./selectdb";
+import  apiURL  from "./selectdb";
 
 async function getPosts(setPosts, setLoading) {
     setLoading(true)

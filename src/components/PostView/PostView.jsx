@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
 import BackIcon from '../../icons/BackIcon'
 import Circle from '../../icons/Circle'
 import ReplyBubble from '../../icons/ReplyBubble'
 import HeartIcon from '../../icons/HeartIcon'
 import { useOutletContext } from 'react-router'
-import { newReply } from '../../utils/queries'
-import Reply from '../Reply'
 import LoadingIndicator from '../LoadingIndicator'
 import { Link } from 'react-router'
 import ProfilePicture from '../ProfilePicture'
 import { Gif } from '@giphy/react-components'
 import usePostData from './hooks/usePostData'
-import { likePost, unlikePost } from './utils/likePost'
+import useReplies from './hooks/useReplies'
+import Replies from './components/Replies'
+import createNewReply from './handlers/postReply'
+import { likePostAction, unlikePostAction } from './handlers/toggleLike'
 
 const PostView = () => {
 
@@ -28,10 +29,9 @@ const PostView = () => {
             loading 
     } = usePostData(postId)
 
-    const [repliesLoading, setRepliesLoading] = useState(true);  
-    const [replies, setReplies] = useState([]); 
+    const { replies, setReplies , repliesLoading } = useReplies(postId)
 
-    const [userReply, setUserReply] = useState('');   
+    const [userReply, setUserReply] = useState('');  
 
     function handleReplyTyping(e) {
         setUserReply(e.target.value)
@@ -40,7 +40,6 @@ const PostView = () => {
     const heartClickHandler = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-        const prevPost = post
         /*
         Call setPost to change post state
         Make api request
@@ -48,21 +47,9 @@ const PostView = () => {
         */
        const likeStatus = post.likedBy.map(user=> user.likedById).includes(loggedUser.id)
        if (!likeStatus){
-           setPost(prev => {
-               return {
-                   ...prev, 
-                   likedBy: [...prev.likedBy, {likedById: loggedUser.id}]
-               }
-           })
-           await likePost(prevPost, setPost, post.id)
-       } else {
-            setPost(prev => {
-                return {
-                    ...prev, 
-                    likedBy: prev.likedBy.filter(user => user.likedById !== loggedUser.id)
-                }
-            })
-            await unlikePost(prevPost, setPost, post.id)
+           await likePostAction(setPost, post.id, loggedUser.id)
+        } else {
+           await unlikePostAction(setPost, post.id, loggedUser.id)
        }
     }
 
@@ -76,18 +63,14 @@ const PostView = () => {
         )
     }
 
-    function renderReplies() {
-        return replies.map(reply => <Reply reply={reply} />)
-    }
-
     function clearTextarea() {
         const textarea = document.querySelector('textarea'); 
         textarea.value = ''
     }
 
     function replyClickHandler() {
-        newReply(setReplies, userReply, postId, setRepliesLoading)
-        clearTextarea();
+        createNewReply(postId, userReply, setReplies)
+        clearTextarea()
     }
 
   return (
@@ -122,7 +105,7 @@ const PostView = () => {
                     <div className='flex gap-16' >
                         <div className='flex gap-2 items-center' >
                             <ReplyBubble />
-                            <p>{ post.replies.length }</p>
+                            <p>{ replies.length }</p>
                         </div>
                         <div className='flex gap-2 items-center ' >
                             <HeartIcon heartClickHandler={heartClickHandler} isActive={post.likedBy.map(user=> user.likedById).includes(loggedUser.id)} />
@@ -143,11 +126,7 @@ const PostView = () => {
                     </div>
                 </div>
             </div>
-            <div>
-                {
-                    replies.length > 0 &&  renderReplies()
-                }
-            </div>
+            <Replies replies={replies}  repliesLoading={repliesLoading} />
         </div>
     </div>
   )

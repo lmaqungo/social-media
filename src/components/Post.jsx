@@ -1,4 +1,3 @@
-import React from 'react'
 import ReplyBubble from '../icons/ReplyBubble'
 import HeartIcon from '../icons/HeartIcon'
 import { useState, useEffect } from 'react'
@@ -54,7 +53,7 @@ const Post = ({ post }) => {
     /*Nice to have feature. Can work on this towards the end */
 
   return (
-    <div className='p-4 border-t border-dark-grey cursor-pointer transition hover:bg-dark-grey-alternate ' >
+    <div className='p-4 border-t border-dark-grey cursor-pointer transition hover:bg-dark-grey-alternate  ' >
         <Link to={`/posts/${post.id}`} className='flex gap-2' >
             <div className='self-start shrink-0 ' >
                 <ProfilePicture user={post.author} size={41} />
